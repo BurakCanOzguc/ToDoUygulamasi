@@ -60,7 +60,10 @@ class _AddNewTaskState extends State<AddNewTask> {
                     children: [
                       const Row(
                         children: [
-                          Text("Task Name"),
+                          Text(
+                            "Task Name : ",
+                            style: TextStyle(fontSize: 18),
+                          ),
                         ],
                       ),
                       const SizedBox(
@@ -94,7 +97,10 @@ class _AddNewTaskState extends State<AddNewTask> {
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: [
                           // ****** Kategori ******
-                          const Text("Kategori :"),
+                          const Text(
+                            "Kategori :",
+                            style: TextStyle(fontSize: 16),
+                          ),
                           GestureDetector(
                             onTap: () {
                               ScaffoldMessenger.of(context).showSnackBar(
@@ -142,7 +148,7 @@ class _AddNewTaskState extends State<AddNewTask> {
                           Expanded(
                             child: Column(
                               children: [
-                                Text("Date"),
+                                Text("Date : "),
                                 Padding(
                                   padding: const EdgeInsets.symmetric(
                                       horizontal: 20),
@@ -159,7 +165,7 @@ class _AddNewTaskState extends State<AddNewTask> {
                           Expanded(
                             child: Column(
                               children: [
-                                Text("Time"),
+                                Text("Time : "),
                                 Padding(
                                   padding: const EdgeInsets.symmetric(
                                       horizontal: 20),
@@ -175,9 +181,9 @@ class _AddNewTaskState extends State<AddNewTask> {
                           ),
                         ],
                       ),
-                      Padding(
-                        padding: const EdgeInsets.only(top: 25, bottom: 5),
-                        child: const Text(
+                      const Padding(
+                        padding: EdgeInsets.only(top: 25, bottom: 5),
+                        child: Text(
                           "Açıklama : ",
                           style: TextStyle(fontSize: 18),
                         ),
@@ -206,6 +212,10 @@ class _AddNewTaskState extends State<AddNewTask> {
                                     color: Colors.purple),
                               )),
                         ),
+                      ),
+                      ElevatedButton(
+                        onPressed: () {},
+                        child: Text("SAVE"),
                       ),
                     ],
                   ),

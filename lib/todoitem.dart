@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:todouygulamasi/constants/tasktype.dart';
 import 'package:todouygulamasi/main.dart';
+import 'package:todouygulamasi/model/task.dart';
 
 class TodoItem extends StatefulWidget {
-  const TodoItem({super.key, required this.title});
-  final String title;
+  const TodoItem({super.key, required this.task});
+  final Task task;
 
   @override
   State<TodoItem> createState() => _TodoItemState();
@@ -14,29 +16,54 @@ class _TodoItemState extends State<TodoItem> {
   @override
   Widget build(BuildContext context) {
     return Card(
+      color: widget.task.isCompleted ? Colors.grey : Colors.white,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
       child: Padding(
         padding: const EdgeInsets.all(20),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
-            const Icon(
-              Icons.notes_outlined,
-              size: 40,
-            ),
-            Text(
-              widget.title,
-              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 21),
+            //if(a==5) {...} --> a==5 ? doğru : yanlış --> ternary operation
+            widget.task.type == TaskType.note
+                ? Image.asset("lib/assets/images/Category_1.png")
+                : widget.task.type == TaskType.calendar
+                    ? Image.asset("lib/assets/images/Category_2.png")
+                    : Image.asset("lib/assets/images/Category_3.png"),
+
+            Expanded(
+              child: Column(
+                children: [
+                  Text(
+                    widget.task.title,
+                    style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 21,
+                        decoration: widget.task.isCompleted
+                            ? TextDecoration.lineThrough
+                            : TextDecoration.none),
+                  ),
+                  Text(
+                    widget.task.description,
+                    style: TextStyle(
+                      decoration: widget.task.isCompleted
+                          ? TextDecoration.lineThrough
+                          : TextDecoration.none,
+                    ),
+                  ),
+                ],
+              ),
             ),
             Checkbox(
-                value: isChecked,
-                onChanged: (val) => {
-                      setState(
-                        () {
-                          isChecked = val!;
-                        },
-                      )
-                    }),
+              value: isChecked,
+              onChanged: (val) => {
+                setState(
+                  () {
+                    widget.task.isCompleted = !widget.task.isCompleted;
+                    isChecked = val!;
+                  },
+                ),
+              },
+            ),
           ],
         ),
       ),
