@@ -1,15 +1,26 @@
 import 'package:flutter/material.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:todouygulamasi/constants/color.dart';
+import 'package:todouygulamasi/constants/tasktype.dart';
+import 'package:todouygulamasi/model/task.dart';
 
-class AddNewTask extends StatefulWidget {
-  const AddNewTask({super.key});
+class AddNewTaskPage extends StatefulWidget {
+  const AddNewTaskPage({super.key, required this.addNewTask});
+  final void Function(Task newTask) addNewTask;
+  // Passing Function as parameter
 
   @override
-  State<AddNewTask> createState() => _AddNewTaskState();
+  State<AddNewTaskPage> createState() => _AddNewTaskPageState();
 }
 
-class _AddNewTaskState extends State<AddNewTask> {
+class _AddNewTaskPageState extends State<AddNewTaskPage> {
+  TextEditingController titleController = TextEditingController();
+  TextEditingController dateController = TextEditingController();
+  TextEditingController timeController = TextEditingController();
+  TextEditingController descriptionController = TextEditingController();
+
+  TaskType taskType = TaskType.note;
+
   @override
   Widget build(BuildContext context) {
     double deviceHeight = MediaQuery.of(context).size.height;
@@ -58,10 +69,11 @@ class _AddNewTaskState extends State<AddNewTask> {
                 child: Container(
                   child: Column(
                     children: [
+                      //Task Name
                       const Row(
                         children: [
                           Text(
-                            "Task Name : ",
+                            "Task Title : ",
                             style: TextStyle(fontSize: 18),
                           ),
                         ],
@@ -71,8 +83,9 @@ class _AddNewTaskState extends State<AddNewTask> {
                       ),
                       Padding(
                         padding: const EdgeInsets.fromLTRB(8, 8, 8, 15),
-                        // ****** Task Name TextField ******
+                        // ****** Task Title TextField ******
                         child: TextField(
+                          controller: titleController,
                           decoration: InputDecoration(
                               filled: true,
                               fillColor: Colors.grey[200],
@@ -98,7 +111,7 @@ class _AddNewTaskState extends State<AddNewTask> {
                         children: [
                           // ****** Kategori ******
                           const Text(
-                            "Kategori :",
+                            "Category :",
                             style: TextStyle(fontSize: 16),
                           ),
                           GestureDetector(
@@ -109,6 +122,9 @@ class _AddNewTaskState extends State<AddNewTask> {
                                   content: Text("Kategori Seçili"),
                                 ),
                               );
+                              setState(() {
+                                taskType = TaskType.note;
+                              });
                             },
                             child:
                                 Image.asset("lib/assets/images/Category_1.png"),
@@ -121,6 +137,9 @@ class _AddNewTaskState extends State<AddNewTask> {
                                   content: Text("Kategori Seçili"),
                                 ),
                               );
+                              setState(() {
+                                taskType = TaskType.calendar;
+                              });
                             },
                             child:
                                 Image.asset("lib/assets/images/Category_2.png"),
@@ -133,6 +152,7 @@ class _AddNewTaskState extends State<AddNewTask> {
                                   content: Text("Kategori Seçili"),
                                 ),
                               );
+                              taskType = TaskType.contest;
                             },
                             child:
                                 Image.asset("lib/assets/images/Category_3.png"),
@@ -153,6 +173,7 @@ class _AddNewTaskState extends State<AddNewTask> {
                                   padding: const EdgeInsets.symmetric(
                                       horizontal: 20),
                                   child: TextField(
+                                    controller: dateController,
                                     decoration: InputDecoration(
                                       filled: true,
                                       fillColor: Colors.grey[200],
@@ -170,6 +191,7 @@ class _AddNewTaskState extends State<AddNewTask> {
                                   padding: const EdgeInsets.symmetric(
                                       horizontal: 20),
                                   child: TextField(
+                                    controller: timeController,
                                     decoration: InputDecoration(
                                       filled: true,
                                       fillColor: Colors.grey[200],
@@ -184,13 +206,14 @@ class _AddNewTaskState extends State<AddNewTask> {
                       const Padding(
                         padding: EdgeInsets.only(top: 25, bottom: 5),
                         child: Text(
-                          "Açıklama : ",
+                          "Describtion : ",
                           style: TextStyle(fontSize: 18),
                         ),
                       ),
                       SizedBox(
                         height: 300,
                         child: TextField(
+                          controller: descriptionController,
                           textAlign: TextAlign.start,
                           expands: true,
                           maxLines: null,
@@ -214,7 +237,15 @@ class _AddNewTaskState extends State<AddNewTask> {
                         ),
                       ),
                       ElevatedButton(
-                        onPressed: () {},
+                        onPressed: () {
+                          Task newtask = Task(
+                              type: taskType,
+                              title: titleController.text,
+                              description: descriptionController.text,
+                              isCompleted: false);
+                          widget.addNewTask(newtask);
+                          Navigator.of(context).pop();
+                        },
                         child: Text("SAVE"),
                       ),
                     ],
