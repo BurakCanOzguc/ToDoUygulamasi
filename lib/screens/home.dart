@@ -5,6 +5,7 @@ import 'package:todouygulamasi/constants/tasktype.dart';
 import 'package:todouygulamasi/main.dart';
 import 'package:todouygulamasi/model/task.dart';
 import 'package:todouygulamasi/screens/add_new_task.dart';
+import 'package:todouygulamasi/service/todo_service.dart';
 import 'package:todouygulamasi/todoitem.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -54,6 +55,8 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
+    TodoService todoService = TodoService();
+    todoService.getTodos();
     return SafeArea(
       child: Scaffold(
         backgroundColor: HexColor(backgroundColor),
